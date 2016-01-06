@@ -15,6 +15,10 @@
 		91457BBA1C3CC8AE003F0B14 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91457BB81C3CC8AE003F0B14 /* LaunchScreen.storyboard */; };
 		91457BC51C3CC8AE003F0B14 /* DownloaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 91457BC41C3CC8AE003F0B14 /* DownloaderTests.m */; };
 		91457BD01C3CC8AE003F0B14 /* DownloaderUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 91457BCF1C3CC8AE003F0B14 /* DownloaderUITests.m */; };
+		91457BDF1C3CE813003F0B14 /* SSFNetWork.m in Sources */ = {isa = PBXBuildFile; fileRef = 91457BDE1C3CE813003F0B14 /* SSFNetWork.m */; };
+		91457BE21C3CECC1003F0B14 /* SSFNetWorkDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 91457BE11C3CECC1003F0B14 /* SSFNetWorkDelegate.m */; };
+		91457BE51C3CEF40003F0B14 /* NSString+encryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 91457BE41C3CEF40003F0B14 /* NSString+encryption.m */; };
+		91457BE91C3CF424003F0B14 /* MainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91457BE81C3CF424003F0B14 /* MainTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +55,15 @@
 		91457BCB1C3CC8AE003F0B14 /* DownloaderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DownloaderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		91457BCF1C3CC8AE003F0B14 /* DownloaderUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DownloaderUITests.m; sourceTree = "<group>"; };
 		91457BD11C3CC8AE003F0B14 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		91457BDD1C3CE813003F0B14 /* SSFNetWork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSFNetWork.h; sourceTree = "<group>"; };
+		91457BDE1C3CE813003F0B14 /* SSFNetWork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSFNetWork.m; sourceTree = "<group>"; };
+		91457BE01C3CECC1003F0B14 /* SSFNetWorkDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSFNetWorkDelegate.h; sourceTree = "<group>"; };
+		91457BE11C3CECC1003F0B14 /* SSFNetWorkDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSFNetWorkDelegate.m; sourceTree = "<group>"; };
+		91457BE31C3CEF40003F0B14 /* NSString+encryption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+encryption.h"; sourceTree = "<group>"; };
+		91457BE41C3CEF40003F0B14 /* NSString+encryption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+encryption.m"; sourceTree = "<group>"; };
+		91457BE61C3CEFA9003F0B14 /* DownloaderHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DownloaderHeader.h; sourceTree = "<group>"; };
+		91457BE71C3CF424003F0B14 /* MainTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTableViewController.h; sourceTree = "<group>"; };
+		91457BE81C3CF424003F0B14 /* MainTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,11 +118,20 @@
 				91457BAE1C3CC8AD003F0B14 /* AppDelegate.m */,
 				91457BB01C3CC8AD003F0B14 /* ViewController.h */,
 				91457BB11C3CC8AD003F0B14 /* ViewController.m */,
+				91457BE71C3CF424003F0B14 /* MainTableViewController.h */,
+				91457BE81C3CF424003F0B14 /* MainTableViewController.m */,
 				91457BB31C3CC8AE003F0B14 /* Main.storyboard */,
 				91457BB61C3CC8AE003F0B14 /* Assets.xcassets */,
 				91457BB81C3CC8AE003F0B14 /* LaunchScreen.storyboard */,
 				91457BBB1C3CC8AE003F0B14 /* Info.plist */,
 				91457BAA1C3CC8AD003F0B14 /* Supporting Files */,
+				91457BDD1C3CE813003F0B14 /* SSFNetWork.h */,
+				91457BDE1C3CE813003F0B14 /* SSFNetWork.m */,
+				91457BE01C3CECC1003F0B14 /* SSFNetWorkDelegate.h */,
+				91457BE11C3CECC1003F0B14 /* SSFNetWorkDelegate.m */,
+				91457BE61C3CEFA9003F0B14 /* DownloaderHeader.h */,
+				91457BE31C3CEF40003F0B14 /* NSString+encryption.h */,
+				91457BE41C3CEF40003F0B14 /* NSString+encryption.m */,
 			);
 			path = Downloader;
 			sourceTree = "<group>";
@@ -271,8 +293,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				91457BB21C3CC8AE003F0B14 /* ViewController.m in Sources */,
+				91457BDF1C3CE813003F0B14 /* SSFNetWork.m in Sources */,
+				91457BE91C3CF424003F0B14 /* MainTableViewController.m in Sources */,
+				91457BE51C3CEF40003F0B14 /* NSString+encryption.m in Sources */,
 				91457BAF1C3CC8AD003F0B14 /* AppDelegate.m in Sources */,
 				91457BAC1C3CC8AD003F0B14 /* main.m in Sources */,
+				91457BE21C3CECC1003F0B14 /* SSFNetWorkDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

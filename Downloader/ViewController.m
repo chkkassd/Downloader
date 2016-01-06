@@ -7,9 +7,11 @@
 //
 
 #import "ViewController.h"
+#import "SSFNetWork.h"
 
 @interface ViewController ()
-
+@property (weak, nonatomic) IBOutlet UITextField *nameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @end
 
 @implementation ViewController
@@ -19,9 +21,36 @@
     // Do any additional setup after loading the view, typically from a nib.
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (IBAction)signInButtonPressed:(id)sender {
+    [[SSFNetWork sharedNetWork] signInWithEmail:self.nameTextField.text password:self.passwordTextField.text completion:^(NSString *obj) {
+        
+    }];
+    
+    [[SSFNetWork sharedNetWork] signInWithEmail:self.nameTextField.text password:self.passwordTextField.text completion:^(NSString *obj) {
+        
+    }];
+    
+    [[SSFNetWork sharedNetWork] signInWithEmail:self.nameTextField.text password:self.passwordTextField.text completion:^(NSString *obj) {
+        
+    }];
+    
+    [[SSFNetWork sharedNetWork] signInWithEmail:self.nameTextField.text password:self.passwordTextField.text completion:^(NSString *obj) {
+        
+    }];
+    [[SSFNetWork sharedNetWork] signInWithEmail:self.nameTextField.text password:self.passwordTextField.text completion:^(NSString *obj) {
+        
+    }];
+    
+    [[SSFNetWork sharedNetWork] signInWithEmail:self.nameTextField.text password:self.passwordTextField.text completion:^(NSString *obj) {
+        
+    }];
+    [[SSFNetWork sharedNetWork] signInWithEmail:self.nameTextField.text password:self.passwordTextField.text completion:^(NSString *obj) {
+        
+    }];
+    
+    [[SSFNetWork sharedNetWork] signInWithEmail:self.nameTextField.text password:self.passwordTextField.text completion:^(NSString *obj) {
+        
+    }];
 }
 
 @end
