@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DownloaderHeader.h"
 
 @interface SSFNetWork : NSObject
 - (void)signInWithEmail:(NSString *)email password:(NSString *)password completion:(void (^)(NSString *obj))handler;
-- (void)downloadFileTest;
+- (NSURLSessionDownloadTask *)downloadFileWithProgressHandler:(void(^)(double progress))progressHandler Completion:(void (^)(NSString *obj))handler;
+- (NSURLSessionDownloadTask *)resumeDownloadFileWithResumeData:(NSData *)resumeData ProgressHandler:(void (^)(double progress))progressHandler Completion:(void (^)(NSString * obj))handler;
 + (instancetype)sharedNetWork;
 @end

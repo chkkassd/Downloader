@@ -7,21 +7,24 @@
 //
 
 #import "SSFNetWorkDelegate.h"
-#import "DownloaderHeader.h"
 
 @interface SSFNetWorkDelegate()
 
 @property (strong, nonatomic) NSMutableDictionary *completionHandlerDirectory;//存储每个task完成后的回调block
-@property (strong, nonatomic) NSMutableDictionary *resultDataDirectrory;//存储每个task的接受数据的容器
-
+@property (strong, nonatomic) NSMutableDictionary *resultDataDirectrory;//存储每个dataTask的接受数据的容器
+@property (strong, nonatomic) NSMutableDictionary *progressHandlerDirectory;//存储每个downloadTask的进度block
 @end
 
 @implementation SSFNetWorkDelegate
 
-- (void)addCompletionHandler:(ResultHandler)handler forTaskIdentifier:(NSString *)identifier {
-    [self.completionHandlerDirectory setObject:handler forKey:identifier];
-    [self.resultDataDirectrory setObject:[[NSMutableData alloc] init] forKey:identifier];
-    NSLog(@"completion count:%d------result count:%d \n",self.completionHandlerDirectory.count,self.resultDataDirectrory.count);
+- (void)addCompletionHandler:(ResultHandler)handler progressHandler:(ProgressHandler)progressHandler forTaskIdentifier:(NSString *)identifier {
+    if (handler) [self.completionHandlerDirectory setObject:handler forKey:identifier];
+    if (progressHandler)
+        [self.progressHandlerDirectory setObject:progressHandler forKey:identifier];
+    else
+        [self.resultDataDirectrory setObject:[[NSMutableData alloc] init] forKey:identifier];
+    
+    NSLog(@"add completion count:%lu \n add resultData count:%lu \n add progress count:%lu \n",(unsigned long)self.completionHandlerDirectory.count,(unsigned long)self.resultDataDirectrory.count,(unsigned long)self.progressHandlerDirectory.count);
 }
 
 - (void)callCompletionHandlerForTaskIdentifier:(NSString *)identifier withResultString:(NSString *)string {
@@ -32,9 +35,10 @@
 }
 
 - (void)removeCompletionHandlerAndResultDataForIdentifier:(NSString *)identifier {
-    [self.completionHandlerDirectory removeObjectForKey:identifier];
-    [self.resultDataDirectrory removeObjectForKey:identifier];
-    NSLog(@"completion count:%d------result count:%d \n",self.completionHandlerDirectory.count,self.resultDataDirectrory.count);
+    if ([self.completionHandlerDirectory objectForKey:identifier]) [self.completionHandlerDirectory removeObjectForKey:identifier];
+    if ([self.resultDataDirectrory objectForKey:identifier]) [self.resultDataDirectrory removeObjectForKey:identifier];
+    if ([self.progressHandlerDirectory objectForKey:identifier]) [self.progressHandlerDirectory removeObjectForKey:identifier];
+    NSLog(@"remove completion count:%lu \n remove resultData count:%lu \n remove progress count:%lu \n",(unsigned long)self.completionHandlerDirectory.count,(unsigned long)self.resultDataDirectrory.count,(unsigned long)self.progressHandlerDirectory.count);
 }
 
 #pragma mark - properties
@@ -51,6 +55,13 @@
         _resultDataDirectrory = [[NSMutableDictionary alloc] init];
     }
     return _resultDataDirectrory;
+}
+
+- (NSMutableDictionary *)progressHandlerDirectory {
+    if (!_progressHandlerDirectory) {
+        _progressHandlerDirectory = [[NSMutableDictionary alloc] init];
+    }
+    return _progressHandlerDirectory;
 }
 
 #pragma mark - NSURLSessionDateDelegate
@@ -72,7 +83,8 @@
             [self removeCompletionHandlerAndResultDataForIdentifier:[NSString stringWithFormat:@"%lu",(unsigned long)task.taskIdentifier]];
             
         } else {
-            
+            [self callCompletionHandlerForTaskIdentifier:[NSString stringWithFormat:@"%lu",(unsigned long)task.taskIdentifier] withResultString:@"success"];
+            [self removeCompletionHandlerAndResultDataForIdentifier:[NSString stringWithFormat:@"%lu",(unsigned long)task.taskIdentifier]];
         }
     } else {
         if ([task isKindOfClass:[NSURLSessionDataTask class]]) {
@@ -80,7 +92,8 @@
             [self callCompletionHandlerForTaskIdentifier:[NSString stringWithFormat:@"%lu",(unsigned long)task.taskIdentifier] withResultString:nil];
             [self removeCompletionHandlerAndResultDataForIdentifier:[NSString stringWithFormat:@"%lu",(unsigned long)task.taskIdentifier]];
         } else {
-            
+            [self callCompletionHandlerForTaskIdentifier:[NSString stringWithFormat:@"%lu",(unsigned long)task.taskIdentifier] withResultString:@"fail"];
+            [self removeCompletionHandlerAndResultDataForIdentifier:[NSString stringWithFormat:@"%lu",(unsigned long)task.taskIdentifier]];
         }
     }
 }
@@ -106,7 +119,8 @@
           session, downloadTask, bytesWritten, totalBytesWritten, totalBytesExpectedToWrite);
     double a = totalBytesWritten/1000.0;
     double b = totalBytesExpectedToWrite/1000.0;
-//    self.progressLabel.text = [NSString stringWithFormat:@"%lf",a/b];
+    ProgressHandler progressHandler = [self.progressHandlerDirectory objectForKey:[NSString stringWithFormat:@"%lu",(unsigned long)downloadTask.taskIdentifier]];
+    progressHandler(a/b);
 }
 
 -(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didResumeAtOffset:(int64_t)fileOffset expectedTotalBytes:(int64_t)expectedTotalBytes {

@@ -64,14 +64,24 @@
     [request setHTTPBody:body];
     
     NSURLSessionDataTask *dataTask = [self.defaultSession dataTaskWithRequest:request];
-    [self.defaultSessionDelegate addCompletionHandler:handler forTaskIdentifier:[NSString stringWithFormat:@"%lu",(unsigned long)dataTask.taskIdentifier]];
+    [self.defaultSessionDelegate addCompletionHandler:handler progressHandler:nil forTaskIdentifier:[NSString stringWithFormat:@"%lu",(unsigned long)dataTask.taskIdentifier]];
     [dataTask resume];
 }
 
 //downloadTask request
-- (void)downloadRequestWithUrl:(NSURL *)url {
-    
-    [[self.defaultSession downloadTaskWithURL:url] resume];
+- (NSURLSessionDownloadTask *)downloadRequestWithUrl:(NSURL *)url progressHandler:(void(^)(double progress))progressHandler completion:(void(^)(NSString *obj))completionHandler {
+    NSURLSessionDownloadTask *downloadTask = [self.defaultSession downloadTaskWithURL:url];
+    [self.defaultSessionDelegate addCompletionHandler:completionHandler progressHandler:progressHandler forTaskIdentifier:[NSString stringWithFormat:@"%lu",(unsigned long)downloadTask.taskIdentifier]];
+    [downloadTask resume];
+    return downloadTask;
+}
+
+//resume downloadTask
+- (NSURLSessionDownloadTask *)resumeDownloadRequestWithResumeData:(NSData *)resumeData progressHandler:(void(^)(double progress))progressHandler completion:(void(^)(NSString *obj))completionHandler {
+    NSURLSessionDownloadTask *downloadTask = [self.defaultSession downloadTaskWithResumeData:resumeData];
+    [self.defaultSessionDelegate addCompletionHandler:completionHandler progressHandler:progressHandler forTaskIdentifier:[NSString stringWithFormat:@"%lu",(unsigned long)downloadTask.taskIdentifier]];
+    [downloadTask resume];
+    return downloadTask;
 }
 
 #pragma mark - properties
@@ -131,12 +141,16 @@
 }
 
 //test defaultSession downloadTask
-- (void)downloadFileTest {
+- (NSURLSessionDownloadTask *)downloadFileWithProgressHandler:(void (^)(double))progressHandler Completion:(void (^)(NSString *))handler {
     //    NSURL *url = [NSURL URLWithString:@"http://api.ezendai.com:8888/ios/thumb_large.png"];
     NSURL *url = [NSURL URLWithString:@"http://devstreaming.apple.com/videos/wwdc/2014/718xxctf8ley20j/718/718_hd_adopting_airprint.mov"];
-    [self downloadRequestWithUrl:url];
+    return [self downloadRequestWithUrl:url progressHandler:progressHandler completion:handler];
 }
 
+- (NSURLSessionDownloadTask *)resumeDownloadFileWithResumeData:(NSData *)resumeData ProgressHandler:(void (^)(double))progressHandler Completion:(void (^)(NSString *))handler {
+//    NSURL *url = [NSURL URLWithString:@"http://devstreaming.apple.com/videos/wwdc/2014/718xxctf8ley20j/718/718_hd_adopting_airprint.mov"];
+    return [self resumeDownloadRequestWithResumeData:resumeData progressHandler:progressHandler completion:handler];
+}
 #pragma mark - Initialization
 
 - (instancetype)init {

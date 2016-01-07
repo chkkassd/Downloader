@@ -10,5 +10,7 @@
 #define DownloaderHeader_h
 
 #import "NSString+encryption.h"
+#import "SSFDownloadTask.h"
+#import "SSFNetWork.h"
 
 #endif /* DownloaderHeader_h */

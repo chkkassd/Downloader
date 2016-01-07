@@ -5,7 +5,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -32,10 +31,13 @@
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4C4-0i-D97">
                                 <rect key="frame" x="20" y="221" width="560" height="30"/>
+                                <color key="backgroundColor" red="1" green="0.65677426620000001" blue="0.66839920249999996" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="4C4-0i-D97" secondAttribute="height" multiplier="56:3" id="XoY-UG-xs4"/>
                                 </constraints>
-                                <state key="normal" title="Button"/>
+                                <state key="normal" title="登录">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="XoY-UG-xs4"/>
@@ -69,6 +71,7 @@
                     <connections>
                         <outlet property="nameTextField" destination="I0w-4t-YTQ" id="CSQ-A0-eUb"/>
                         <outlet property="passwordTextField" destination="NVj-dV-Xzz" id="8G3-Gp-5sC"/>
+                        <segue destination="5hQ-iZ-kBp" kind="show" identifier="IdForMyDownload" id="FGq-ly-gpN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -79,54 +82,77 @@
         <scene sceneID="aES-Qw-xfr">
             <objects>
                 <tableViewController id="ySj-wg-4Mr" customClass="MainTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="kDv-Ii-IYo">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="64" sectionHeaderHeight="28" sectionFooterHeight="28" id="kDv-Ii-IYo">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <view key="tableHeaderView" contentMode="scaleToFill" id="wYk-ra-SAI">
-                            <rect key="frame" x="0.0" y="64" width="600" height="95"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="DxL-il-XNF">
-                                    <rect key="frame" x="30" y="47" width="472" height="2"/>
-                                    <color key="progressTintColor" red="0.074509803920000006" green="0.56470588239999997" blue="0.92549019610000005" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="trackTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                </progressView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GKd-fd-zSx">
-                                    <rect key="frame" x="517" y="37" width="66" height="21"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DownloadTableViewCell" rowHeight="64" id="7Te-Fd-DjB" customClass="DownloadTableViewCell">
+                                <rect key="frame" x="0.0" y="92" width="600" height="64"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7Te-Fd-DjB" id="J00-n1-n9g">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="63.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UQD-dB-NDj">
+                                            <rect key="frame" x="552" y="12" width="40" height="40"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="40" id="aab-3N-1ck"/>
+                                                <constraint firstAttribute="height" constant="40" id="uRX-eS-gzX"/>
+                                            </constraints>
+                                            <state key="normal" title="暂停"/>
+                                            <state key="selected" title="下载"/>
+                                            <connections>
+                                                <action selector="downloadButtonPressed:" destination="7Te-Fd-DjB" eventType="touchUpInside" id="lzx-0J-J8e"/>
+                                            </connections>
+                                        </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4hk-Jr-sTr">
+                                            <rect key="frame" x="469" y="21" width="75" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="MXP-Dl-KaE"/>
+                                                <constraint firstAttribute="width" constant="75" id="opx-xm-Lw4"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="FbH-OD-AAW">
+                                            <rect key="frame" x="22" y="31" width="439" height="2"/>
+                                        </progressView>
+                                    </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="66" id="hHO-T5-Vqc"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="FbH-OD-AAW" secondAttribute="trailing" constant="131" id="2kq-tq-mwV"/>
+                                        <constraint firstItem="UQD-dB-NDj" firstAttribute="trailing" secondItem="J00-n1-n9g" secondAttribute="trailingMargin" id="3st-ZO-sNm"/>
+                                        <constraint firstItem="FbH-OD-AAW" firstAttribute="leading" secondItem="J00-n1-n9g" secondAttribute="leadingMargin" constant="14" id="AQT-tf-zmE"/>
+                                        <constraint firstItem="FbH-OD-AAW" firstAttribute="centerY" secondItem="J00-n1-n9g" secondAttribute="centerY" id="RcW-hS-I2z"/>
+                                        <constraint firstItem="4hk-Jr-sTr" firstAttribute="centerY" secondItem="J00-n1-n9g" secondAttribute="centerY" id="eLc-JV-aDs"/>
+                                        <constraint firstItem="UQD-dB-NDj" firstAttribute="leading" secondItem="4hk-Jr-sTr" secondAttribute="trailing" constant="8" id="saY-cc-s1x"/>
+                                        <constraint firstItem="UQD-dB-NDj" firstAttribute="centerY" secondItem="J00-n1-n9g" secondAttribute="centerY" id="uSw-Fa-6aK"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                            </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <constraints>
-                                <constraint firstAttribute="trailing" secondItem="DxL-il-XNF" secondAttribute="trailing" constant="98" id="7Gj-cY-BNa"/>
-                                <constraint firstItem="DxL-il-XNF" firstAttribute="centerY" secondItem="wYk-ra-SAI" secondAttribute="centerY" id="VPd-1A-t0b"/>
-                                <constraint firstAttribute="trailing" secondItem="GKd-fd-zSx" secondAttribute="trailing" constant="17" id="axh-20-Df0"/>
-                                <constraint firstItem="GKd-fd-zSx" firstAttribute="centerY" secondItem="wYk-ra-SAI" secondAttribute="centerY" id="hXg-ni-ii9"/>
-                                <constraint firstItem="DxL-il-XNF" firstAttribute="leading" secondItem="wYk-ra-SAI" secondAttribute="leading" constant="30" id="vlr-d3-agm"/>
-                            </constraints>
-                        </view>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="downloadButton" destination="UQD-dB-NDj" id="TBt-9Q-QH0"/>
+                                    <outlet property="progressLabel" destination="4hk-Jr-sTr" id="pXs-NE-LgH"/>
+                                    <outlet property="progressView" destination="FbH-OD-AAW" id="uRI-27-ONT"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="ySj-wg-4Mr" id="LiL-aG-067"/>
                             <outlet property="delegate" destination="ySj-wg-4Mr" id="e5h-th-Y4M"/>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="我的下载" id="kZm-vm-U9i">
-                        <rightBarButtonItems>
-                            <barButtonItem title="开始" id="kZR-Nd-546"/>
-                            <barButtonItem title="暂停" id="n9P-uv-o6i"/>
-                            <barButtonItem title="继续" id="1ec-HF-lU4"/>
-                        </rightBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" title="增加一个下载任务" id="kZR-Nd-546">
+                            <connections>
+                                <action selector="addATask:" destination="ySj-wg-4Mr" id="Zd9-EJ-CUl"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4jE-UI-n3z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1264" y="1101"/>
+            <point key="canvasLocation" x="1242" y="1185"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="zVa-DM-XMn">
@@ -144,7 +170,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mqa-ac-ZLg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="452" y="1101"/>
+            <point key="canvasLocation" x="455" y="1185"/>
         </scene>
     </scenes>
 </document>

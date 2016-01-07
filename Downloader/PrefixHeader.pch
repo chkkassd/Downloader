@@ -1,0 +1,14 @@
+//
+//  PrefixHeader.pch
+//  Downloader
+//
+//  Created by 赛峰 施 on 16/1/7.
+//  Copyright © 2016年 赛峰 施. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#import "DownloaderHeader.h"
+
+#endif /* PrefixHeader_pch */

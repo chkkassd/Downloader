@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 
 typedef void(^ResultHandler)(NSString *obj);
+typedef void(^ProgressHandler)(double progress);
 
 @interface SSFNetWorkDelegate : NSObject<NSURLSessionDelegate,NSURLSessionTaskDelegate,NSURLSessionDataDelegate,NSURLSessionDownloadDelegate>
 
-- (void)addCompletionHandler:(ResultHandler)handler forTaskIdentifier:(NSString *)identifier;
-- (void)callCompletionHandlerForTaskIdentifier:(NSString *)identifier withResultString:(NSString *)string;
+- (void)addCompletionHandler:(ResultHandler)handler progressHandler:(ProgressHandler)progressHandler forTaskIdentifier:(NSString *)identifier;
 @end
