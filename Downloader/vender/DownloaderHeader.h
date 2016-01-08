@@ -12,5 +12,6 @@
 #import "NSString+encryption.h"
 #import "SSFDownloadTask.h"
 #import "SSFNetWork.h"
+#import "AlertControllerUtils.h"
 
 #endif /* DownloaderHeader_h */

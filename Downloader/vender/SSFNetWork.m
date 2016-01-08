@@ -57,7 +57,7 @@
 }
 
 //Fetch Resource Using A Cutom Delegate
-- (void)sendHttpRequestWithUrl:(NSURL *)url body:(NSData *)body withCompletion:(void(^)(NSString *obj))handler {
+- (void)sendHttpRequestWithUrl:(NSURL *)url body:(NSData *)body withCompletion:(void(^)(NSString *obj,NSData *resumeData))handler {
     NSMutableURLRequest *request = [NSMutableURLRequest
                                     requestWithURL:url];
     [request setHTTPMethod:@"POST"];
@@ -69,7 +69,7 @@
 }
 
 //downloadTask request
-- (NSURLSessionDownloadTask *)downloadRequestWithUrl:(NSURL *)url progressHandler:(void(^)(double progress))progressHandler completion:(void(^)(NSString *obj))completionHandler {
+- (NSURLSessionDownloadTask *)downloadRequestWithUrl:(NSURL *)url progressHandler:(void(^)(double progress))progressHandler completion:(void(^)(NSString *obj,NSData *resumeData))completionHandler {
     NSURLSessionDownloadTask *downloadTask = [self.defaultSession downloadTaskWithURL:url];
     [self.defaultSessionDelegate addCompletionHandler:completionHandler progressHandler:progressHandler forTaskIdentifier:[NSString stringWithFormat:@"%lu",(unsigned long)downloadTask.taskIdentifier]];
     [downloadTask resume];
@@ -77,7 +77,7 @@
 }
 
 //resume downloadTask
-- (NSURLSessionDownloadTask *)resumeDownloadRequestWithResumeData:(NSData *)resumeData progressHandler:(void(^)(double progress))progressHandler completion:(void(^)(NSString *obj))completionHandler {
+- (NSURLSessionDownloadTask *)resumeDownloadRequestWithResumeData:(NSData *)resumeData progressHandler:(void(^)(double progress))progressHandler completion:(void(^)(NSString *obj,NSData *resumeData))completionHandler {
     NSURLSessionDownloadTask *downloadTask = [self.defaultSession downloadTaskWithResumeData:resumeData];
     [self.defaultSessionDelegate addCompletionHandler:completionHandler progressHandler:progressHandler forTaskIdentifier:[NSString stringWithFormat:@"%lu",(unsigned long)downloadTask.taskIdentifier]];
     [downloadTask resume];
@@ -132,7 +132,7 @@
 #pragma mark - connection
 
 //test defaultSession dataTask
-- (void)signInWithEmail:(NSString *)email password:(NSString *)password completion:(void (^)(NSString *obj))handler {
+- (void)signInWithEmail:(NSString *)email password:(NSString *)password completion:(void (^)(NSString *obj,NSData *resumeData))handler {
     NSURL *url = [NSURL URLWithString:[[self baseURL] stringByAppendingString:@"SignIn"]];
     password = [NSString md5ForString:password];
     NSString *bodyString = [NSString stringWithFormat:@"email=%@&password=%@",email, password];
@@ -141,13 +141,13 @@
 }
 
 //test defaultSession downloadTask
-- (NSURLSessionDownloadTask *)downloadFileWithProgressHandler:(void (^)(double))progressHandler Completion:(void (^)(NSString *))handler {
+- (NSURLSessionDownloadTask *)downloadFileWithProgressHandler:(void (^)(double))progressHandler Completion:(void (^)(NSString *obj,NSData *resumeData))handler {
     //    NSURL *url = [NSURL URLWithString:@"http://api.ezendai.com:8888/ios/thumb_large.png"];
     NSURL *url = [NSURL URLWithString:@"http://devstreaming.apple.com/videos/wwdc/2014/718xxctf8ley20j/718/718_hd_adopting_airprint.mov"];
     return [self downloadRequestWithUrl:url progressHandler:progressHandler completion:handler];
 }
 
-- (NSURLSessionDownloadTask *)resumeDownloadFileWithResumeData:(NSData *)resumeData ProgressHandler:(void (^)(double))progressHandler Completion:(void (^)(NSString *))handler {
+- (NSURLSessionDownloadTask *)resumeDownloadFileWithResumeData:(NSData *)resumeData ProgressHandler:(void (^)(double))progressHandler Completion:(void (^)(NSString *obj,NSData *resumeData))handler {
 //    NSURL *url = [NSURL URLWithString:@"http://devstreaming.apple.com/videos/wwdc/2014/718xxctf8ley20j/718/718_hd_adopting_airprint.mov"];
     return [self resumeDownloadRequestWithResumeData:resumeData progressHandler:progressHandler completion:handler];
 }

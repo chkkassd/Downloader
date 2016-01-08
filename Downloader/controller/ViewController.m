@@ -22,7 +22,7 @@
 }
 
 - (IBAction)signInButtonPressed:(id)sender {
-    [[SSFNetWork sharedNetWork] signInWithEmail:self.nameTextField.text password:self.passwordTextField.text completion:^(NSString *obj) {
+    [[SSFNetWork sharedNetWork] signInWithEmail:self.nameTextField.text password:self.passwordTextField.text completion:^(NSString *obj,NSData *resumeData) {
         NSError *error = nil;
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[obj dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&error];
         if (dic && [dic[@"response_code"] integerValue] == 100) {

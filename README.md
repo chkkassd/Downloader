@@ -1,3 +1,7 @@
 # Downloader
 我写这个工程，主要是用来测试NSURLSession的使用，包括它的dataTask，downloadTask，uploadTask，以及后台运行机制。
 
+# 要点
+核心的类为网络类:SSFNetWork,SSFNetWorkDelegate,以及model类:SSFDownloadTask。
+SSFNetWork,SSFNetWorkDelegate这两个主要封装了NSURLSession的网络连接机制，主要测试了dataTask，downloadTask。
+downloadTask可以开启，暂停，继续一个下载任务，下载失败，也可以用NSError里的resumeData重开一个任务继续下载

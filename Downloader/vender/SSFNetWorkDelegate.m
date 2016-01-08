@@ -27,10 +27,10 @@
     NSLog(@"add completion count:%lu \n add resultData count:%lu \n add progress count:%lu \n",(unsigned long)self.completionHandlerDirectory.count,(unsigned long)self.resultDataDirectrory.count,(unsigned long)self.progressHandlerDirectory.count);
 }
 
-- (void)callCompletionHandlerForTaskIdentifier:(NSString *)identifier withResultString:(NSString *)string {
+- (void)callCompletionHandlerForTaskIdentifier:(NSString *)identifier withResultString:(NSString *)string resumeData:(NSData *)resumeData {
     ResultHandler resultHandler = [self.completionHandlerDirectory objectForKey:identifier];
     if (resultHandler) {
-        resultHandler(string);
+        resultHandler(string,resumeData);
     }
 }
 
@@ -79,20 +79,21 @@
             //dataTask complete
             NSString *result = [NSString decode:[self.resultDataDirectrory objectForKey:[NSString stringWithFormat:@"%lu",(unsigned long)task.taskIdentifier]]];
             NSLog(@"result: %@\n", result);
-            [self callCompletionHandlerForTaskIdentifier:[NSString stringWithFormat:@"%lu",(unsigned long)task.taskIdentifier] withResultString:result];
+            [self callCompletionHandlerForTaskIdentifier:[NSString stringWithFormat:@"%lu",(unsigned long)task.taskIdentifier] withResultString:result resumeData:nil];
             [self removeCompletionHandlerAndResultDataForIdentifier:[NSString stringWithFormat:@"%lu",(unsigned long)task.taskIdentifier]];
             
         } else {
-            [self callCompletionHandlerForTaskIdentifier:[NSString stringWithFormat:@"%lu",(unsigned long)task.taskIdentifier] withResultString:@"success"];
+            [self callCompletionHandlerForTaskIdentifier:[NSString stringWithFormat:@"%lu",(unsigned long)task.taskIdentifier] withResultString:@"success" resumeData:nil];
             [self removeCompletionHandlerAndResultDataForIdentifier:[NSString stringWithFormat:@"%lu",(unsigned long)task.taskIdentifier]];
         }
     } else {
         if ([task isKindOfClass:[NSURLSessionDataTask class]]) {
             //dataTask complete
-            [self callCompletionHandlerForTaskIdentifier:[NSString stringWithFormat:@"%lu",(unsigned long)task.taskIdentifier] withResultString:nil];
+            [self callCompletionHandlerForTaskIdentifier:[NSString stringWithFormat:@"%lu",(unsigned long)task.taskIdentifier] withResultString:nil resumeData:nil];
             [self removeCompletionHandlerAndResultDataForIdentifier:[NSString stringWithFormat:@"%lu",(unsigned long)task.taskIdentifier]];
         } else {
-            [self callCompletionHandlerForTaskIdentifier:[NSString stringWithFormat:@"%lu",(unsigned long)task.taskIdentifier] withResultString:@"fail"];
+            NSData *resumeData = [error.userInfo objectForKey:NSURLSessionDownloadTaskResumeData];
+            [self callCompletionHandlerForTaskIdentifier:[NSString stringWithFormat:@"%lu",(unsigned long)task.taskIdentifier] withResultString:@"fail" resumeData:resumeData];
             [self removeCompletionHandlerAndResultDataForIdentifier:[NSString stringWithFormat:@"%lu",(unsigned long)task.taskIdentifier]];
         }
     }

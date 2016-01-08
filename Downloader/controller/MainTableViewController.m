@@ -64,12 +64,22 @@
     cell.progressLabel.text = [NSString stringWithFormat:@"%0.2f%%",progress * 100];
 }
 
-- (void)SSFDownloadTaskDidFailWithTask:(SSFDownloadTask *)task {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"hello" message:@"下载失败" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *action = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        [alert dismissViewControllerAnimated:YES completion:NULL];
-    }];
-    [alert addAction:action];
-    [self presentViewController:alert animated:YES completion:NULL];
+- (void)SSFDownloadTaskDidCancelWithTask:(SSFDownloadTask *)task cancelType:(DownloadTaskCncelType)cancelType {
+    switch (cancelType) {
+        case DOWNLOAD_TASK_CANCEL_TYPE_FAIL:
+        {
+            NSUInteger a = [self.dataArr indexOfObject:task];
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:a inSection:0];
+            DownloadTableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+            cell.downloadButton.selected = YES;
+            [AlertControllerUtils simpleAlertWithTitle:@"hello" message:@"下载失败" alertControllerStyle:UIAlertControllerStyleAlert presentViewController:self];
+            break;
+        }
+        case DOWNLOAD_TASK_CANCEL_TYPE_PAUSE:
+            [AlertControllerUtils simpleAlertWithTitle:@"hello" message:@"下载暂停" alertControllerStyle:UIAlertControllerStyleAlert presentViewController:self];
+            break;
+        default:
+            break;
+    }
 }
 @end

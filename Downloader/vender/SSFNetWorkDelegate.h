@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void(^ResultHandler)(NSString *obj);
+typedef void(^ResultHandler)(NSString *obj,NSData *resumeData);
 typedef void(^ProgressHandler)(double progress);
 
 @interface SSFNetWorkDelegate : NSObject<NSURLSessionDelegate,NSURLSessionTaskDelegate,NSURLSessionDataDelegate,NSURLSessionDownloadDelegate>
