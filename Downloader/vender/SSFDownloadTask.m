@@ -15,6 +15,37 @@
 
 @implementation SSFDownloadTask
 
+- (void)startBackground {
+    self.state = DOWNLOAD_TASK_STATE_TYPE_DOWNLOADING;
+    NSURLSessionDownloadTask *downloadTask = [[SSFNetWork sharedNetWork] downloadFileBackgroundWithProgressHandler:^(double progress) {
+        self.progress = progress;
+    } Completion:^(NSString *obj,NSData *resumeData) {
+        if ([obj isEqualToString:@"success"]) {
+            self.state = DOWNLOAD_TASK_STATE_TYPE_COMPLETE;
+            [self.delegate SSFDownloadTaskDidCompletionWithTask:self];
+        } else {
+            if (self.state == DOWNLOAD_TASK_STATE_TYPE_DOWNLOADING) {
+                self.state = DOWNLOAD_TASK_STATE_TYPE_FAIL;
+                if (resumeData) {
+                    //可继续下载
+                    self.resumeData = resumeData;
+                    self.isContinueDowonload = YES;
+                } else {
+                    //不可继续下载
+                    self.resumeData = nil;
+                    self.isContinueDowonload = NO;
+                }
+                [self.delegate SSFDownloadTaskDidCancelWithTask:self cancelType:DOWNLOAD_TASK_CANCEL_TYPE_FAIL];
+            } else if (self.state == DOWNLOAD_TASK_STATE_TYPE_PAUSE) {
+                [self.delegate SSFDownloadTaskDidCancelWithTask:self cancelType:DOWNLOAD_TASK_CANCEL_TYPE_PAUSE];
+            }
+            
+        }
+    }];
+    self.identifier = downloadTask.taskIdentifier;
+    self.downloadTask = downloadTask;
+}
+
 - (void)start {
     self.state = DOWNLOAD_TASK_STATE_TYPE_DOWNLOADING;
    NSURLSessionDownloadTask *downloadTask = [[SSFNetWork sharedNetWork] downloadFileWithProgressHandler:^(double progress) {

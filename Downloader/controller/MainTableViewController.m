@@ -26,7 +26,7 @@
 - (IBAction)addATask:(id)sender {
     SSFDownloadTask *downloadTask = [[SSFDownloadTask alloc] init];
     downloadTask.delegate = self;
-    [downloadTask start];
+    [downloadTask startBackground];
     
     [self.dataArr addObject:downloadTask];
     [self.tableView reloadData];
@@ -45,7 +45,7 @@
     SSFDownloadTask *task = self.dataArr[indexPath.row];
     cell.progressView.progress = task.progress;
     cell.progressLabel.text = [NSString stringWithFormat:@"%0.2f%%",task.progress * 100];
-    cell.resumeHandler = ^(bool flag) {
+    cell.resumeHandler = ^(BOOL flag) {
         if (flag)
             [task resume];
          else
@@ -81,5 +81,9 @@
         default:
             break;
     }
+}
+
+- (void)SSFDownloadTaskDidCompletionWithTask:(SSFDownloadTask *)task {
+    [AlertControllerUtils simpleAlertWithTitle:@"hello" message:@"下载成功" alertControllerStyle:UIAlertControllerStyleAlert presentViewController:self];
 }
 @end

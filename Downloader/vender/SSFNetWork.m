@@ -7,7 +7,6 @@
 //
 
 #import "SSFNetWork.h"
-#import "SSFNetWorkDelegate.h"
 
 #define SERVER_IP                     @"120.24.67.134"
 #define SERVER_WEB_SERVICE_PORT       8080
@@ -16,9 +15,6 @@
 
 @property (nonatomic)  NSURLSession *defaultSession;
 @property (nonatomic)  NSURLSession *backgroundSession;
-
-@property (nonatomic,strong) SSFNetWorkDelegate *defaultSessionDelegate;
-@property (nonatomic,strong) SSFNetWorkDelegate *backgroundSessionDelegate;
 
 @end
 
@@ -84,6 +80,14 @@
     return downloadTask;
 }
 
+//background downloadTask request
+- (NSURLSessionDownloadTask *)backgroundDownloadRequestWithUrl:(NSURL *)url progressHandler:(void(^)(double progress))progressHandler completion:(void(^)(NSString *obj,NSData *resumeData))completionHandler {
+    NSURLSessionDownloadTask *downloadTask = [self.backgroundSession downloadTaskWithURL:url];
+    [self.backgroundSessionDelegate addCompletionHandler:completionHandler progressHandler:progressHandler forTaskIdentifier:[NSString stringWithFormat:@"%lu",(unsigned long)downloadTask.taskIdentifier]];
+    [downloadTask resume];
+    return downloadTask;
+}
+
 #pragma mark - properties
 
 - (NSURLSession *)defaultSession {
@@ -143,7 +147,7 @@
 //test defaultSession downloadTask
 - (NSURLSessionDownloadTask *)downloadFileWithProgressHandler:(void (^)(double))progressHandler Completion:(void (^)(NSString *obj,NSData *resumeData))handler {
     //    NSURL *url = [NSURL URLWithString:@"http://api.ezendai.com:8888/ios/thumb_large.png"];
-    NSURL *url = [NSURL URLWithString:@"http://devstreaming.apple.com/videos/wwdc/2014/718xxctf8ley20j/718/718_hd_adopting_airprint.mov"];
+    NSURL *url = [NSURL URLWithString:@"http://devstreaming.apple.com/videos/wwdc/2014/709xx1q8hdvo14x/709/709_cross_platform_nearby_networking.pdf"];
     return [self downloadRequestWithUrl:url progressHandler:progressHandler completion:handler];
 }
 
@@ -151,6 +155,14 @@
 //    NSURL *url = [NSURL URLWithString:@"http://devstreaming.apple.com/videos/wwdc/2014/718xxctf8ley20j/718/718_hd_adopting_airprint.mov"];
     return [self resumeDownloadRequestWithResumeData:resumeData progressHandler:progressHandler completion:handler];
 }
+
+//test backgroundSession downloadTask
+- (NSURLSessionDownloadTask *)downloadFileBackgroundWithProgressHandler:(void (^)(double))progressHandler Completion:(void (^)(NSString *obj,NSData *resumeData))handler {
+    //    NSURL *url = [NSURL URLWithString:@"http://api.ezendai.com:8888/ios/thumb_large.png"];
+    NSURL *url = [NSURL URLWithString:@"http://devstreaming.apple.com/videos/wwdc/2014/709xx1q8hdvo14x/709/709_cross_platform_nearby_networking.pdf"];
+    return [self backgroundDownloadRequestWithUrl:url progressHandler:progressHandler completion:handler];
+}
+
 #pragma mark - Initialization
 
 - (instancetype)init {

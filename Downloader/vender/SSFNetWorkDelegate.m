@@ -1,3 +1,4 @@
+
 //
 //  SSFNetWorkDelegate.m
 //  Downloader
@@ -129,4 +130,9 @@
           session, downloadTask, fileOffset, expectedTotalBytes);
 }
 
+#pragma mark - NSURLSessionDelegate
+
+- (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session {
+    self.finishAllBackgroundTasksHandler();
+}
 @end

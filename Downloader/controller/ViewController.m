@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "SSFNetWork.h"
+#import "AppDelegate+signInAndOut.h"
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
@@ -26,7 +27,11 @@
         NSError *error = nil;
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[obj dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&error];
         if (dic && [dic[@"response_code"] integerValue] == 100) {
-            [self performSegueWithIdentifier:@"IdForMyDownload" sender:self];
+            [[NSUserDefaults standardUserDefaults] setObject:self.nameTextField.text forKey:SIGN_IN_USER_NAME];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+            [appDelegate showMainTableView];
         }
     }];
 }

@@ -14,4 +14,6 @@
 #import "SSFNetWork.h"
 #import "AlertControllerUtils.h"
 
+#define SIGN_IN_USER_NAME  @"SIGN_IN_USER_NAME"
+
 #endif /* DownloaderHeader_h */

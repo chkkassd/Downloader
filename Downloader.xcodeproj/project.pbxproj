@@ -22,6 +22,7 @@
 		91457C181C3F69CF003F0B14 /* SSFNetWork.m in Sources */ = {isa = PBXBuildFile; fileRef = 91457C151C3F69CF003F0B14 /* SSFNetWork.m */; };
 		91457C191C3F69CF003F0B14 /* SSFNetWorkDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 91457C171C3F69CF003F0B14 /* SSFNetWorkDelegate.m */; };
 		91457C221C3F9B73003F0B14 /* AlertControllerUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 91457C211C3F9B73003F0B14 /* AlertControllerUtils.m */; };
+		91457C251C44AC87003F0B14 /* AppDelegate+signInAndOut.m in Sources */ = {isa = PBXBuildFile; fileRef = 91457C241C44AC87003F0B14 /* AppDelegate+signInAndOut.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,8 @@
 		91457C171C3F69CF003F0B14 /* SSFNetWorkDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSFNetWorkDelegate.m; sourceTree = "<group>"; };
 		91457C201C3F9B73003F0B14 /* AlertControllerUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertControllerUtils.h; sourceTree = "<group>"; };
 		91457C211C3F9B73003F0B14 /* AlertControllerUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertControllerUtils.m; sourceTree = "<group>"; };
+		91457C231C44AC87003F0B14 /* AppDelegate+signInAndOut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+signInAndOut.h"; sourceTree = "<group>"; };
+		91457C241C44AC87003F0B14 /* AppDelegate+signInAndOut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+signInAndOut.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +169,8 @@
 			children = (
 				91457BF21C3E7405003F0B14 /* AppDelegate.h */,
 				91457BF31C3E7405003F0B14 /* AppDelegate.m */,
+				91457C231C44AC87003F0B14 /* AppDelegate+signInAndOut.h */,
+				91457C241C44AC87003F0B14 /* AppDelegate+signInAndOut.m */,
 				91457BF41C3E7405003F0B14 /* MainTableViewController.h */,
 				91457BF51C3E7405003F0B14 /* MainTableViewController.m */,
 				91457BF61C3E7405003F0B14 /* ViewController.h */,
@@ -382,6 +387,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				91457C061C3E7405003F0B14 /* AppDelegate.m in Sources */,
+				91457C251C44AC87003F0B14 /* AppDelegate+signInAndOut.m in Sources */,
 				91457BAC1C3CC8AD003F0B14 /* main.m in Sources */,
 				91457C0D1C3E7405003F0B14 /* DownloadTableViewCell.m in Sources */,
 				91457C081C3E7405003F0B14 /* ViewController.m in Sources */,
