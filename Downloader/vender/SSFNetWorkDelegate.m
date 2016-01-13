@@ -105,7 +105,7 @@
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *cacheDirectory = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
-    NSString *downloadFilePath = [cacheDirectory stringByAppendingPathComponent:@"downloadFile"];
+    NSString *downloadFilePath = [cacheDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"downloadFile%lu",(unsigned long)downloadTask.taskIdentifier]];
     NSURL *downloadFilePathUrl = [NSURL fileURLWithPath:downloadFilePath];
     
     NSError *error = nil;

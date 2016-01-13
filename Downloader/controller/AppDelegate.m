@@ -30,13 +30,15 @@
     return YES;
 }
 
-//只有后台任务呗系统终结的时候，重启app，系统会调用次方法，通过idengtifier来重造session。或者在后台的时候，session完成了他所有的后台任务，系统会自动重启app并调用这个方法，储存handler给delegate调用
+//1.只有后台任务呗系统终结的时候，重启app，系统会调用次方法，通过idengtifier来重造session。
+//2.或者在后台的时候，session完成了他所有的后台任务，系统会自动重启app并调用这个方法，储存handler给delegate调用
 - (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler {
     SSFNetWorkDelegate *netDelegate = [[SSFNetWork sharedNetWork] backgroundSessionDelegate];
     
     NSURLSessionConfiguration *backgroundSessionConfiguration = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:identifier];
     NSURLSession *backgroundSession = [NSURLSession sessionWithConfiguration:backgroundSessionConfiguration delegate:netDelegate delegateQueue:[NSOperationQueue mainQueue]];
     netDelegate.finishAllBackgroundTasksHandler = completionHandler;
+
 }
 
 @end

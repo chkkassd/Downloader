@@ -29,7 +29,8 @@ typedef enum{
 @property (nonatomic, assign) DownloadTaskStateType state;//task状态
 @property (nonatomic, weak) id <SSFDownloadTaskDelegate> delegate;
 
-- (void)startBackground;
+- (void)startForBackground;
+- (void)resumeForBackground;
 - (void)start;
 - (void)resume;
 - (void)pause;

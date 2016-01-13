@@ -26,7 +26,7 @@
 - (IBAction)addATask:(id)sender {
     SSFDownloadTask *downloadTask = [[SSFDownloadTask alloc] init];
     downloadTask.delegate = self;
-    [downloadTask startBackground];
+    [downloadTask startForBackground];
     
     [self.dataArr addObject:downloadTask];
     [self.tableView reloadData];
@@ -47,7 +47,7 @@
     cell.progressLabel.text = [NSString stringWithFormat:@"%0.2f%%",task.progress * 100];
     cell.resumeHandler = ^(BOOL flag) {
         if (flag)
-            [task resume];
+            [task resumeForBackground];
          else
             [task pause];
     };
@@ -84,6 +84,13 @@
 }
 
 - (void)SSFDownloadTaskDidCompletionWithTask:(SSFDownloadTask *)task {
+    NSUInteger a = [self.dataArr indexOfObject:task];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:a inSection:0];
+    DownloadTableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    cell.progressView.progress = 1.0;
+    cell.progressLabel.text = @"100.00%";
+    cell.downloadButton.selected = YES;
+    
     [AlertControllerUtils simpleAlertWithTitle:@"hello" message:@"下载成功" alertControllerStyle:UIAlertControllerStyleAlert presentViewController:self];
 }
 @end

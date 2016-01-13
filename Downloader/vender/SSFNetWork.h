@@ -15,8 +15,14 @@
 @property (nonatomic,strong) SSFNetWorkDelegate *backgroundSessionDelegate;
 
 - (void)signInWithEmail:(NSString *)email password:(NSString *)password completion:(void (^)(NSString *obj,NSData *resumeData))handler;
+
+//default
 - (NSURLSessionDownloadTask *)downloadFileWithProgressHandler:(void(^)(double progress))progressHandler Completion:(void (^)(NSString *obj,NSData *resumeData))handler;
 - (NSURLSessionDownloadTask *)resumeDownloadFileWithResumeData:(NSData *)resumeData ProgressHandler:(void (^)(double progress))progressHandler Completion:(void (^)(NSString * obj,NSData *resumeData))handler;
+
+//background
 - (NSURLSessionDownloadTask *)downloadFileBackgroundWithProgressHandler:(void (^)(double))progressHandler Completion:(void (^)(NSString *obj,NSData *resumeData))handler;
+- (NSURLSessionDownloadTask *)resumeDownloadFileBackgroundWithResumeData:(NSData *)resumeData ProgressHandler:(void (^)(double))progressHandler Completion:(void (^)(NSString *obj,NSData *resumeData))handler;
+
 + (instancetype)sharedNetWork;
 @end

@@ -88,6 +88,14 @@
     return downloadTask;
 }
 
+//background resume downloadTask
+- (NSURLSessionDownloadTask *)backgroundResumeDownloadRequestWithResumeData:(NSData *)resumeData progressHandler:(void(^)(double progress))progressHandler completion:(void(^)(NSString *obj,NSData *resumeData))completionHandler {
+    NSURLSessionDownloadTask *downloadTask = [self.backgroundSession downloadTaskWithResumeData:resumeData];
+    [self.backgroundSessionDelegate addCompletionHandler:completionHandler progressHandler:progressHandler forTaskIdentifier:[NSString stringWithFormat:@"%lu",(unsigned long)downloadTask.taskIdentifier]];
+    [downloadTask resume];
+    return downloadTask;
+}
+
 #pragma mark - properties
 
 - (NSURLSession *)defaultSession {
@@ -151,6 +159,7 @@
     return [self downloadRequestWithUrl:url progressHandler:progressHandler completion:handler];
 }
 
+//test defaultSession resumeDownloadTask
 - (NSURLSessionDownloadTask *)resumeDownloadFileWithResumeData:(NSData *)resumeData ProgressHandler:(void (^)(double))progressHandler Completion:(void (^)(NSString *obj,NSData *resumeData))handler {
 //    NSURL *url = [NSURL URLWithString:@"http://devstreaming.apple.com/videos/wwdc/2014/718xxctf8ley20j/718/718_hd_adopting_airprint.mov"];
     return [self resumeDownloadRequestWithResumeData:resumeData progressHandler:progressHandler completion:handler];
@@ -161,6 +170,11 @@
     //    NSURL *url = [NSURL URLWithString:@"http://api.ezendai.com:8888/ios/thumb_large.png"];
     NSURL *url = [NSURL URLWithString:@"http://devstreaming.apple.com/videos/wwdc/2014/709xx1q8hdvo14x/709/709_cross_platform_nearby_networking.pdf"];
     return [self backgroundDownloadRequestWithUrl:url progressHandler:progressHandler completion:handler];
+}
+
+//test backgroundSession resumeDownloadTask
+- (NSURLSessionDownloadTask *)resumeDownloadFileBackgroundWithResumeData:(NSData *)resumeData ProgressHandler:(void (^)(double))progressHandler Completion:(void (^)(NSString *obj,NSData *resumeData))handler {
+    return [self backgroundResumeDownloadRequestWithResumeData:resumeData progressHandler:progressHandler completion:handler];
 }
 
 #pragma mark - Initialization

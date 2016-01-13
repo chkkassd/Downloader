@@ -3,5 +3,15 @@
 
 # 要点
 核心的类为网络类:SSFNetWork,SSFNetWorkDelegate,以及model类:SSFDownloadTask。
-SSFNetWork,SSFNetWorkDelegate这两个主要封装了NSURLSession的网络连接机制，主要测试了dataTask，downloadTask。
-downloadTask可以开启，暂停，继续一个下载任务，下载失败，也可以用NSError里的resumeData重开一个任务继续下载
+SSFNetWork,SSFNetWorkDelegate这两个主要封装了NSURLSession的网络连接机制，主要测试了在defaultSession和backgroundSession下的dataTask，downloadTask,uploadTask未测试。
+
+一，defaultSessionConfiguration
+defaultSession是一个很强大的会话，它能够支持所有task任务，一般的网络请求dataTask，下载用的downloadTask，上传用的uploadTask都能够完美支持。
+downloadTask可以开启，暂停，继续一个下载任务，下载失败，也可以用NSError里的resumeData重开一个任务继续下载，并能够通过自定义delegate反应下载实时进度。
+
+二，backgroundSessionConfiguration
+backgroundSession支持downloadTask和uploadTask，当你在前台时，表现和defaultSession一样，但是一旦退到后台，下载任务可以继续执行，因为系统给他开了一个单独的线程。
+
+当下载任务在后台下载时，- (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler ;这个方法在下面两种情况下会被调用：
+1.后台任务被系统终结的时候，重启app，如果有未完成的后台下载或上台任务，系统会调用此方法，通过idengtifier来重造session，session会自动恢复原来的下载或上传任务。如果是用户终结的app，那就会cancel所有task，在重启时，不会调用这个方法，也不会恢复原来的任务。
+2.在app不运行的时候，session完成了他所有的后台任务，系统会自动重启app并调用这个方法，储存handler给session的delegate调用。这时候，app已被系统重启，会调用session对应的delegate方法，包括downloadTaskDelegate和taskDelegate，以及sessionDelegate的- (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session;方法
