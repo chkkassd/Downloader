@@ -14,5 +14,5 @@ typedef void(^ResumeHandler)(BOOL flag);
 @property (weak, nonatomic) IBOutlet UIButton *downloadButton;
 @property (weak, nonatomic) IBOutlet UILabel *progressLabel;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
-@property (strong, nonatomic) ResumeHandler resumeHandler;
+@property (copy, nonatomic) ResumeHandler resumeHandler;
 @end
