@@ -23,6 +23,8 @@
 		91457C191C3F69CF003F0B14 /* SSFNetWorkDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 91457C171C3F69CF003F0B14 /* SSFNetWorkDelegate.m */; };
 		91457C221C3F9B73003F0B14 /* AlertControllerUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 91457C211C3F9B73003F0B14 /* AlertControllerUtils.m */; };
 		91457C251C44AC87003F0B14 /* AppDelegate+signInAndOut.m in Sources */ = {isa = PBXBuildFile; fileRef = 91457C241C44AC87003F0B14 /* AppDelegate+signInAndOut.m */; };
+		91457C321C4E3A59003F0B14 /* NSString+Tony.m in Sources */ = {isa = PBXBuildFile; fileRef = 91457C311C4E3A59003F0B14 /* NSString+Tony.m */; };
+		91457C351C4E3BD6003F0B14 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 91457C341C4E3BD6003F0B14 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +79,10 @@
 		91457C211C3F9B73003F0B14 /* AlertControllerUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertControllerUtils.m; sourceTree = "<group>"; };
 		91457C231C44AC87003F0B14 /* AppDelegate+signInAndOut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+signInAndOut.h"; sourceTree = "<group>"; };
 		91457C241C44AC87003F0B14 /* AppDelegate+signInAndOut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+signInAndOut.m"; sourceTree = "<group>"; };
+		91457C301C4E3A59003F0B14 /* NSString+Tony.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Tony.h"; sourceTree = "<group>"; };
+		91457C311C4E3A59003F0B14 /* NSString+Tony.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Tony.m"; sourceTree = "<group>"; };
+		91457C331C4E3BD6003F0B14 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
+		91457C341C4E3BD6003F0B14 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -215,6 +221,8 @@
 		91457C1B1C3F69FE003F0B14 /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				91457C301C4E3A59003F0B14 /* NSString+Tony.h */,
+				91457C311C4E3A59003F0B14 /* NSString+Tony.m */,
 				91457BFF1C3E7405003F0B14 /* NSString+encryption.h */,
 				91457C001C3E7405003F0B14 /* NSString+encryption.m */,
 			);
@@ -240,6 +248,8 @@
 		91457C1E1C3F6AEE003F0B14 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				91457C331C4E3BD6003F0B14 /* JSONKit.h */,
+				91457C341C4E3BD6003F0B14 /* JSONKit.m */,
 				91457C201C3F9B73003F0B14 /* AlertControllerUtils.h */,
 				91457C211C3F9B73003F0B14 /* AlertControllerUtils.m */,
 			);
@@ -392,7 +402,9 @@
 				91457C0D1C3E7405003F0B14 /* DownloadTableViewCell.m in Sources */,
 				91457C081C3E7405003F0B14 /* ViewController.m in Sources */,
 				91457C221C3F9B73003F0B14 /* AlertControllerUtils.m in Sources */,
+				91457C351C4E3BD6003F0B14 /* JSONKit.m in Sources */,
 				91457C191C3F69CF003F0B14 /* SSFNetWorkDelegate.m in Sources */,
+				91457C321C4E3A59003F0B14 /* NSString+Tony.m in Sources */,
 				91457C0C1C3E7405003F0B14 /* SSFDownloadTask.m in Sources */,
 				91457C181C3F69CF003F0B14 /* SSFNetWork.m in Sources */,
 				91457C0B1C3E7405003F0B14 /* NSString+encryption.m in Sources */,
@@ -624,6 +636,7 @@
 				91457BD61C3CC8AE003F0B14 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		91457BD71C3CC8AE003F0B14 /* Build configuration list for PBXNativeTarget "DownloaderTests" */ = {
 			isa = XCConfigurationList;
@@ -632,6 +645,7 @@
 				91457BD91C3CC8AE003F0B14 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		91457BDA1C3CC8AE003F0B14 /* Build configuration list for PBXNativeTarget "DownloaderUITests" */ = {
 			isa = XCConfigurationList;
@@ -640,6 +654,7 @@
 				91457BDC1C3CC8AE003F0B14 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

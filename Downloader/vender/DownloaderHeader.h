@@ -13,6 +13,8 @@
 #import "SSFDownloadTask.h"
 #import "SSFNetWork.h"
 #import "AlertControllerUtils.h"
+#import "NSString+Tony.h"
+#import "JSONKit.h"
 
 #define SIGN_IN_USER_NAME  @"SIGN_IN_USER_NAME"
 

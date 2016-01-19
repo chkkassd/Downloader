@@ -9,7 +9,7 @@
 #import "NSString+encryption.h"
 #import <CommonCrypto/CommonDigest.h>
 
-static char base64EncodingTable[64] = {
+static char Base64EncodingTable[64] = {
     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
     'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
     'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
@@ -33,7 +33,7 @@ static char base64EncodingTable[64] = {
                         ];
     return output.uppercaseString;
 }
-
+/*
 #pragma mark - base64解密
 #define xx 65
 static unsigned char base64DecodeLookup[256] =
@@ -109,6 +109,7 @@ void *NewBase64Decode(
     return outputBuffer;
 }
 
+
 + (NSString *)base64StringFromData:(NSData *)data
 {
     unsigned long ixtext, lentext;
@@ -152,7 +153,7 @@ void *NewBase64Decode(
         }
         
         for (i = 0; i < ctcopy; i++)
-            [result appendString: [NSString stringWithFormat: @"%c", base64EncodingTable[output[i]]]];
+            [result appendString: [NSString stringWithFormat: @"%c", Base64EncodingTable[output[i]]]];
         
         for (i = ctcopy; i < 4; i++)
             [result appendString: @"="];
@@ -176,6 +177,7 @@ void *NewBase64Decode(
     free(outputBuffer);
     return result;
 }
+*/
 
 + (NSString *)decode:(NSData *)data {
     NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];

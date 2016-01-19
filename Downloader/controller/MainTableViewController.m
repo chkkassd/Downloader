@@ -32,6 +32,12 @@
     [self.tableView reloadData];
 }
 
+- (IBAction)testHttps:(id)sender {
+    [[SSFNetWork sharedNetWork] testHttpsAuthenticationCompletion:^(NSString *obj, NSData *resumeData) {
+        NSLog(@"========https:%@",obj);
+    }];
+}
+
 #pragma mark - table datasource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

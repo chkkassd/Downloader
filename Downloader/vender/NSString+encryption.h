@@ -10,7 +10,7 @@
 
 @interface NSString (encryption)
 + (NSString *)md5ForString:(NSString *)value;
-+ (NSString *)base64StringFromData:(NSData *)data;
-+ (NSData *)dataFromBase64String:(NSString *)aString;
+//+ (NSString *)base64StringFromData:(NSData *)data;
+//+ (NSData *)dataFromBase64String:(NSString *)aString;
 + (NSString *)decode:(NSData *)data;
 @end

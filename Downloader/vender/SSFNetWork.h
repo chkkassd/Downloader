@@ -24,5 +24,8 @@
 - (NSURLSessionDownloadTask *)downloadFileBackgroundWithProgressHandler:(void (^)(double))progressHandler Completion:(void (^)(NSString *obj,NSData *resumeData))handler;
 - (NSURLSessionDownloadTask *)resumeDownloadFileBackgroundWithResumeData:(NSData *)resumeData ProgressHandler:(void (^)(double))progressHandler Completion:(void (^)(NSString *obj,NSData *resumeData))handler;
 
+//test https authentication
+- (void)testHttpsAuthenticationCompletion:(void (^)(NSString *obj,NSData *resumeData))handler;;
+
 + (instancetype)sharedNetWork;
 @end

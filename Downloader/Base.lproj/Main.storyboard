@@ -142,6 +142,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="我的下载" id="kZm-vm-U9i">
+                        <barButtonItem key="leftBarButtonItem" title="testHttps" id="Im6-h1-l3Y">
+                            <connections>
+                                <action selector="testHttps:" destination="ySj-wg-4Mr" id="CeL-bL-Z65"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="增加一个下载任务" id="kZR-Nd-546">
                             <connections>
                                 <action selector="addATask:" destination="ySj-wg-4Mr" id="Zd9-EJ-CUl"/>

@@ -177,6 +177,71 @@
     return [self backgroundResumeDownloadRequestWithResumeData:resumeData progressHandler:progressHandler completion:handler];
 }
 
+//test https authentication
+
+#define DefaultProjectNo    @"Lc_WS2015"//捞财宝流水号
+#define kSecret @"KWOJT23434LT3PAD"//验签
+//#define kSecret @"KWOJT23434LT3JT"//验签,ceshi
+- (void)testHttpsAuthenticationCompletion:(void (^)(NSString *, NSData *))handler {
+    NSDictionary * dic = @{
+                              @"pageNo":@"1",
+                              @"pageSize": @"10",
+                              @"customerId": @""
+                              };
+
+    NSString *projectNo = DefaultProjectNo;
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    NSString *appName = [infoDictionary objectForKey:@"CFBundleDisplayName"];
+    NSString *appVersion = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+    NSString *userAgent = [NSString stringWithFormat:@"%@ %@(iOS;%@;zh_CN)",appName,appVersion,[[UIDevice currentDevice] systemVersion]];
+//    NSString * sessionToken = kUserInfoModel?kUserInfoModel.sessionToken:@"";
+    NSDictionary *reqHeadParam = @{
+                                   @"mechanism":@"证大",
+                                   @"platform":@"App",
+                                   @"togatherType":@"证大无线",
+                                   @"openchannel":@"AppStore",
+                                   @"token":@"",
+                                   @"userAgent":userAgent,
+                                   @"sessionToken":@"",
+                                   @"version":@"1.9"
+                                   };
+    NSString * dateString = [[NSString stringTranslatedFromDate:[NSDate date]] stringByReplacingOccurrencesOfString:@" " withString:@""];
+    dateString = [dateString stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    dateString = [dateString stringByReplacingOccurrencesOfString:@":" withString:@""];
+    NSString *randomString = [self getRandomStringWithCount:5];
+    NSString * sn = [NSString stringWithFormat:@"%@-%@-%@",DefaultProjectNo,dateString,randomString];
+    
+    NSString * signOri = [NSString stringWithFormat:@"%@|%@|%@",projectNo,sn,kSecret];
+    NSString * sign = [NSString md5StringFromString:signOri];
+    
+    NSDictionary *paramDic = @{@"projectNo":projectNo,
+                               @"reqUrl":@"",
+                               @"reqParam":dic,
+                               @"reqHeadParam":reqHeadParam,
+                               @"reqTimestamp":@"",
+                               @"sn":sn,
+                               @"sign":sign
+                               };
+    
+    NSString * dataString = [paramDic JSONString];
+    
+    NSURL *url = [NSURL URLWithString:@"https://trade.laocaibao.com/laocaibao_webservice_1.10/Api/requestDeal"];
+    NSString * requestString = [NSString stringWithFormat:@"arg0=%@&arg1=%@", @"500001", dataString];
+    NSData *bodyData = [requestString dataUsingEncoding:NSUTF8StringEncoding];
+    [self sendHttpRequestWithUrl:url body:bodyData withCompletion:handler];
+}
+
+- (NSString *)getRandomStringWithCount:(int)count
+{
+    NSString *string = [[NSString alloc] init];
+    for (int i = 0; i < count; i ++) {
+        int a = arc4random() % 10;
+        string = [string stringByAppendingString:[NSString stringWithFormat:@"%d",a]];
+    }
+    return string;
+}
+
+
 #pragma mark - Initialization
 
 - (instancetype)init {
