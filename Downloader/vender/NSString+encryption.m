@@ -181,8 +181,8 @@ void *NewBase64Decode(
 
 + (NSString *)decode:(NSData *)data {
     NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    string = [string stringByReplacingOccurrencesOfString:@"+" withString:@" "];
-    string = [string stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//    string = [string stringByReplacingOccurrencesOfString:@"+" withString:@" "];
+//    string = [string stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     return string;
 }
 

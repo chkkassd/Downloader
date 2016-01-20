@@ -101,7 +101,7 @@
 - (NSURLSession *)defaultSession {
     if (!_defaultSession) {
         NSURLSessionConfiguration *defaultConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        
+//        defaultConfiguration.TLSMinimumSupportedProtocol = kTLSProtocol1;
         //cache
         NSString *cachePath = @"/MyCacheDirectory";
         NSArray *myPathList = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
@@ -180,8 +180,8 @@
 //test https authentication
 
 #define DefaultProjectNo    @"Lc_WS2015"//捞财宝流水号
-#define kSecret @"KWOJT23434LT3PAD"//验签
-//#define kSecret @"KWOJT23434LT3JT"//验签,ceshi
+//#define kSecret @"KWOJT23434LT3PAD"//验签
+#define kSecret @"KWOJT23434LT3JT"//验签,ceshi
 - (void)testHttpsAuthenticationCompletion:(void (^)(NSString *, NSData *))handler {
     NSDictionary * dic = @{
                               @"pageNo":@"1",
@@ -203,7 +203,7 @@
                                    @"token":@"",
                                    @"userAgent":userAgent,
                                    @"sessionToken":@"",
-                                   @"version":@"1.9"
+                                   @"version":[self currentAppVersion]
                                    };
     NSString * dateString = [[NSString stringTranslatedFromDate:[NSDate date]] stringByReplacingOccurrencesOfString:@" " withString:@""];
     dateString = [dateString stringByReplacingOccurrencesOfString:@"-" withString:@""];
@@ -225,7 +225,8 @@
     
     NSString * dataString = [paramDic JSONString];
     
-    NSURL *url = [NSURL URLWithString:@"https://trade.laocaibao.com/laocaibao_webservice_1.10/Api/requestDeal"];
+//    NSURL *url = [NSURL URLWithString:@"https://trade.laocaibao.com/laocaibao_webservice_1.10/Api/requestDeal"];
+    NSURL *url = [NSURL URLWithString:@"https://172.16.250.62/laocaibao_webservice/Api/requestDeal"];
     NSString * requestString = [NSString stringWithFormat:@"arg0=%@&arg1=%@", @"500001", dataString];
     NSData *bodyData = [requestString dataUsingEncoding:NSUTF8StringEncoding];
     [self sendHttpRequestWithUrl:url body:bodyData withCompletion:handler];
@@ -241,6 +242,10 @@
     return string;
 }
 
+- (NSString *)currentAppVersion{
+    NSDictionary * info = [[NSBundle mainBundle] infoDictionary];
+    return info[@"CFBundleShortVersionString"];
+}
 
 #pragma mark - Initialization
 

@@ -100,6 +100,30 @@
     }
 }
 
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler {
+    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
+        //1.fetch trust object
+        SecTrustRef trust = challenge.protectionSpace.serverTrust;
+        SecTrustResultType result;
+        //2.secTrustEvaluate validate the trust object
+        OSStatus status = SecTrustEvaluate(trust, &result);
+        
+        if (status == errSecSuccess && (result == kSecTrustResultProceed || result == kSecTrustResultUnspecified)) {
+            //3.validate success and tell challenge' sender to conncet with this trust object
+            NSURLCredential *credential = [NSURLCredential credentialForTrust:trust];
+            completionHandler(NSURLSessionAuthChallengeUseCredential,credential);
+        } else {
+            //4.validate fail and cancel connect
+            NSURLCredential *credential = [NSURLCredential credentialForTrust:trust];
+            //            completionHandler(NSURLSessionAuthChallengeCancelAuthenticationChallenge,credential);
+            completionHandler(NSURLSessionAuthChallengePerformDefaultHandling,credential);
+        }
+        
+    } else {
+        completionHandler(NSURLSessionAuthChallengeCancelAuthenticationChallenge,nil);
+    }
+}
+
 #pragma NSURLSessionDownloadDelegate
 
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
@@ -136,13 +160,30 @@
     self.finishAllBackgroundTasksHandler();
 }
 
-- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler {
-    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
-        NSURLCredential *credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
-        completionHandler(NSURLSessionAuthChallengeCancelAuthenticationChallenge,credential);
-    } else {
-        completionHandler(NSURLSessionAuthChallengeCancelAuthenticationChallenge,nil);
-    }
-    
-}
+//- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler {
+//    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
+//        //1.fetch trust object
+//        SecTrustRef trust = challenge.protectionSpace.serverTrust;
+//        SecTrustResultType result;
+//        //2.secTrustEvaluate validate the trust object
+//        OSStatus status = SecTrustEvaluate(trust, &result);
+//        
+//        if (status == errSecSuccess && (result == kSecTrustResultProceed || result == kSecTrustResultUnspecified)) {
+//            //3.validate success and tell challenge' sender to conncet with this trust object
+//            NSURLCredential *credential = [NSURLCredential credentialForTrust:trust];
+//            completionHandler(NSURLSessionAuthChallengePerformDefaultHandling,credential);
+//        } else {
+//            //4.validate fail and cancel connect
+//            NSURLCredential *credential = [NSURLCredential credentialForTrust:trust];
+////            completionHandler(NSURLSessionAuthChallengeCancelAuthenticationChallenge,credential);
+//            completionHandler(NSURLSessionAuthChallengeUseCredential,nil);
+//        }
+//        
+//    } else {
+//        completionHandler(NSURLSessionAuthChallengeCancelAuthenticationChallenge,nil);
+//    }
+//    
+//}
+
+
 @end
