@@ -33,3 +33,10 @@ backgroundSession支持downloadTask和uploadTask，当你在前台时，表现�
 ps: 假如是自建证书的，则会跳过第二步，使用第三部进行验证，因为自建证书的根CA的数字签名未在操作系统的信任列表中。
 
 iOS授权验证的API和流程大概了解了
+
+
+我们通过protectionSpace.authenticationMethod判断是否信任服务器证书 
+- NSURLSessionAuthChallengeUseCredential = 0, 使用凭据 ，信任服务器证书 
+- NSURLSessionAuthChallengePerformDefaultHandling = 1, 默认处理，忽略服务器证书 
+- NSURLSessionAuthChallengeCancelAuthenticationChallenge = 2, 整个请求被取消 凭据被忽略 
+- NSURLSessionAuthChallengeRejectProtectionSpace = 3, 本次拒绝，下次重试

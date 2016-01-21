@@ -100,29 +100,29 @@
     }
 }
 
-- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler {
-    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
-        //1.fetch trust object
-        SecTrustRef trust = challenge.protectionSpace.serverTrust;
-        SecTrustResultType result;
-        //2.secTrustEvaluate validate the trust object
-        OSStatus status = SecTrustEvaluate(trust, &result);
-        
-        if (status == errSecSuccess && (result == kSecTrustResultProceed || result == kSecTrustResultUnspecified)) {
-            //3.validate success and tell challenge' sender to conncet with this trust object
-            NSURLCredential *credential = [NSURLCredential credentialForTrust:trust];
-            completionHandler(NSURLSessionAuthChallengeUseCredential,credential);
-        } else {
-            //4.validate fail and cancel connect
-            NSURLCredential *credential = [NSURLCredential credentialForTrust:trust];
-            //            completionHandler(NSURLSessionAuthChallengeCancelAuthenticationChallenge,credential);
-            completionHandler(NSURLSessionAuthChallengePerformDefaultHandling,credential);
-        }
-        
-    } else {
-        completionHandler(NSURLSessionAuthChallengeCancelAuthenticationChallenge,nil);
-    }
-}
+//- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler {
+//    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
+//        //1.fetch trust object
+//        SecTrustRef trust = challenge.protectionSpace.serverTrust;
+//        SecTrustResultType result;
+//        //2.secTrustEvaluate validate the trust object
+//        OSStatus status = SecTrustEvaluate(trust, &result);
+//        
+//        if (status == errSecSuccess && (result == kSecTrustResultProceed || result == kSecTrustResultUnspecified)) {
+//            //3.validate success and tell challenge' sender to conncet with this trust object
+//            NSURLCredential *credential = [NSURLCredential credentialForTrust:trust];
+//            completionHandler(NSURLSessionAuthChallengeUseCredential,credential);
+//        } else {
+//            //4.validate fail and cancel connect
+//            NSURLCredential *credential = [NSURLCredential credentialForTrust:trust];
+//            //            completionHandler(NSURLSessionAuthChallengeCancelAuthenticationChallenge,credential);
+//            completionHandler(NSURLSessionAuthChallengePerformDefaultHandling,credential);
+//        }
+//        
+//    } else {
+//        completionHandler(NSURLSessionAuthChallengeCancelAuthenticationChallenge,nil);
+//    }
+//}
 
 #pragma NSURLSessionDownloadDelegate
 
@@ -160,30 +160,31 @@
     self.finishAllBackgroundTasksHandler();
 }
 
-//- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler {
-//    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
-//        //1.fetch trust object
-//        SecTrustRef trust = challenge.protectionSpace.serverTrust;
-//        SecTrustResultType result;
-//        //2.secTrustEvaluate validate the trust object
-//        OSStatus status = SecTrustEvaluate(trust, &result);
-//        
-//        if (status == errSecSuccess && (result == kSecTrustResultProceed || result == kSecTrustResultUnspecified)) {
-//            //3.validate success and tell challenge' sender to conncet with this trust object
-//            NSURLCredential *credential = [NSURLCredential credentialForTrust:trust];
-//            completionHandler(NSURLSessionAuthChallengePerformDefaultHandling,credential);
-//        } else {
-//            //4.validate fail and cancel connect
-//            NSURLCredential *credential = [NSURLCredential credentialForTrust:trust];
-////            completionHandler(NSURLSessionAuthChallengeCancelAuthenticationChallenge,credential);
-//            completionHandler(NSURLSessionAuthChallengeUseCredential,nil);
-//        }
-//        
-//    } else {
-//        completionHandler(NSURLSessionAuthChallengeCancelAuthenticationChallenge,nil);
-//    }
-//    
-//}
+- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler {
+    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
+        //1.fetch trust object
+        SecTrustRef trust = challenge.protectionSpace.serverTrust;
+        SecTrustResultType result;
+        //2.secTrustEvaluate validate the trust object
+        OSStatus status = SecTrustEvaluate(trust, &result);
+        
+        if (status == errSecSuccess && (result == kSecTrustResultProceed || result == kSecTrustResultUnspecified)) {
+            //3.validate success and tell challenge' sender to conncet with this trust object
+            //使用ca认证的证书，会被系统认证通过
+            NSURLCredential *credential = [NSURLCredential credentialForTrust:trust];
+            completionHandler(NSURLSessionAuthChallengeUseCredential,credential);
+        } else {
+            //4.validate fail and cancel connect
+            //使用非ca认证的证书，譬如自签名证书等，系统认证会失败
+            NSURLCredential *credential = [NSURLCredential credentialForTrust:trust];
+            completionHandler(NSURLSessionAuthChallengeUseCredential,credential);
+        }
+    
+    } else {
+        completionHandler(NSURLSessionAuthChallengeCancelAuthenticationChallenge,nil);
+    }
+    
+}
 
 
 @end
